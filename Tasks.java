@@ -1,18 +1,23 @@
 import java.util.*;
 
-public class tasks {
+public class Tasks {
+    public String[][] relations;
+    public Tasks(String[][] relations){
+         this.relations = relations;
+    }
     static public void main(String[] args){
         String[] test1 = new String[]{ "A" , "B", "C", "D" };
-        System.out.println(isWellSorted(test1));
+        Tasks tasks1 = new Tasks(new String[][]{{ "A" , "C" }, { "C", "D" }, { "B", "C" }});
+        System.out.println(tasks1.isWellSorted(test1));
     }
-    static String[][] relations = new String[][]{{ "A" , "C" }, { "C", "D" }, { "B", "C" }};
-    static public boolean isWellSorted( String[] sequence ){
+    
+    public boolean isWellSorted( String[] sequence ){
         for(int i=0;i<sequence.length;i++){
-            int[] looktable = search(sequence[i],relations);
+            int[] looktable = search(sequence[i]);
             if(looktable[0]!=-1){
                 for(int j=0; j<looktable.length; j++){
                     int index_look_table= looktable[j];
-                    String[] regel = relations[index_look_table];
+                    String[] regel = this.relations[index_look_table];
                     System.out.println("Rule Selected  :" + regel[0] +","+ regel[1]);
                     
                     if (!searchletter(regel[0],i,sequence)){ 
@@ -34,12 +39,12 @@ public class tasks {
         System.out.println("No collision found, sequence is accepted" );
         return true;
     }
-    static public int[] search( String letter ,String[][] relations ){
+    public int[] search( String letter ){
         System.out.println("SEARCHING RULES : ["+letter+"]  :" );
         int[] looktable =new int[]{-1};
         //System.out.println("looktable : ");
-        for(int i=0; i<relations.length; i++){
-            if( letter.equals(relations[i][1]) ){
+        for(int i=0; i<this.relations.length; i++){
+            if( letter.equals(this.relations[i][1]) ){
                 System.out.println("rule found : "+i);
                 //System.out.println(letter.equals(relations[i][0]));
                 //System.out.println(i);
@@ -56,7 +61,7 @@ public class tasks {
         
         return looktable;
     }
-    static public boolean searchletter(String letter ,int index , String[] sequence ){
+    public boolean searchletter(String letter ,int index , String[] sequence ){
         System.out.println("SEARCHING LETTER : ["+letter+"]  :" );
         if(index == 0){
             return false;
