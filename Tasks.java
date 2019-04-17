@@ -6,7 +6,7 @@ public class Tasks {
          this.relations = relations;
     }
     static public void main(String[] args){
-        String[] test1 = new String[]{ "A" , "B", "C", "D" };
+        String[] test1 = new String[]{ "B" , "C", "A", "D" };
         Tasks tasks1 = new Tasks(new String[][]{{ "A" , "C" }, { "C", "D" }, { "B", "C" }});
         System.out.println(tasks1.isWellSorted(test1));
     }
@@ -24,14 +24,6 @@ public class Tasks {
                         System.out.println("Collision detected ! sequence is wrong " );
                         return false;
                     }
-                    //for(int k=i-1;k>=0;k--){
-                    //    
-                    //    //System.out.println(looktable[j]);
-                    //    if(relations[index_look_table][1].equals(sequence[k])){
-                    //        return false;
-                    //    }
-                        
-                    //}
                 }
             }
             
@@ -42,23 +34,21 @@ public class Tasks {
     public int[] search( String letter ){
         System.out.println("SEARCHING RULES : ["+letter+"]  :" );
         int[] looktable =new int[]{-1};
-        //System.out.println("looktable : ");
+        List<Integer> list = new LinkedList<Integer>(); 
         for(int i=0; i<this.relations.length; i++){
             if( letter.equals(this.relations[i][1]) ){
                 System.out.println("rule found : "+i);
-                //System.out.println(letter.equals(relations[i][0]));
-                //System.out.println(i);
-                looktable =  new int[]{};
-                int[] tmp = new int[looktable.length+1];
-                for(int j=0;j<looktable.length;j++){
-                    tmp[j]=looktable[j];
-                }
-                tmp[looktable.length]=i;
-                looktable=tmp;
+                list.add(i); 
             }
-            
         }
-        
+        if(list.size()>0){
+            int[] tmp =new int[list.size()];
+            for (int i = 0; i < list.size(); i++){ 
+                
+                tmp[i] = list.get(i);
+            }
+            looktable=tmp;
+        }
         return looktable;
     }
     public boolean searchletter(String letter ,int index , String[] sequence ){
